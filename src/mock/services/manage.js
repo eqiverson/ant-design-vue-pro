@@ -6,26 +6,49 @@ const totalCount = 5701
 const serverList = (options) => {
   const parameters = getQueryParameters(options)
 
-  const result = []
+  // const result = []
   const pageNo = parseInt(parameters.pageNo)
   const pageSize = parseInt(parameters.pageSize)
   const totalPage = Math.ceil(totalCount / pageSize)
-  const key = (pageNo - 1) * pageSize
-  const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+  // const key = (pageNo - 1) * pageSize
+  // const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
 
-  for (let i = 1; i < next; i++) {
-    const tmpKey = key + i
-    result.push({
-      key: tmpKey,
-      id: tmpKey,
-      no: 'No ' + tmpKey,
-      description: '这是一段描述',
-      callNo: Mock.mock('@integer(1, 999)'),
-      status: Mock.mock('@integer(0, 3)'),
-      updatedAt: Mock.mock('@datetime'),
-      editable: false
-    })
-  }
+  const result = [
+    {
+      'key': 4895517823358906,
+      'id': 6642319828249818,
+      'no': 'dolore in',
+      'callNo': '554',
+      'description': 'sed aliquip ad cillum',
+      'updatedAt': '1983-04-20 21:11:05',
+      'status': '2',
+      'editable': false
+    },
+    {
+      'key': 2859373205519720,
+      'id': 7585533524400600,
+      'no': 'laboris ad do',
+      'callNo': '496',
+      'description': 'amet cupidatat dolor',
+      'updatedAt': '2007-09-28 03:49:21',
+      'status': '3',
+      'editable': false
+    }
+  ]
+
+  // for (let i = 1; i < next; i++) {
+  //   const tmpKey = key + i
+  //   result.push({
+  //     key: tmpKey,
+  //     id: tmpKey,
+  //     no: 'No ' + tmpKey,
+  //     description: '用户' + tmpKey,
+  //     callNo: Mock.mock('@integer(1, 999)'),
+  //     status: Mock.mock('@integer(0, 3)'),
+  //     updatedAt: Mock.mock('@datetime'),
+  //     editable: false
+  //   })
+  // }
 
   return builder({
     pageSize: pageSize,

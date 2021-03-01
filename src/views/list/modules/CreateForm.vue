@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="新建规则"
+    title="用户配置"
     :width="640"
     :visible="visible"
     :confirmLoading="loading"
@@ -10,12 +10,27 @@
     <a-spin :spinning="loading">
       <a-form :form="form" v-bind="formLayout">
         <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-        <a-form-item v-show="model && model.id > 0" label="主键ID">
+        <!-- <a-form-item v-show="model && model.id > 0" label="主键ID">
           <a-input v-decorator="['id', { initialValue: 0 }]" disabled />
+        </a-form-item> -->
+        <!-- <a-form-item  label="uid">
+          <a-input v-decorator="['uid', { initialValue: uid }]" disabled />
+        </a-form-item> -->
+        <a-form-item label="用户名">
+          <a-input v-decorator="['username', {rules: [{required: true, min: 1, message: '请输入至少一个字符的规则描述！'}]}]" />
         </a-form-item>
-        <a-form-item label="描述">
-          <a-input v-decorator="['description', {rules: [{required: true, min: 5, message: '请输入至少五个字符的规则描述！'}]}]" />
+        <a-form-item label="电子邮件">
+          <a-input v-decorator="['email', {rules: [{required: true, pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/, message: '邮箱格式不正确'}]}]" />
         </a-form-item>
+        <a-form-item label="手机号">
+          <a-input v-decorator="['phone', {rules: [{required: true, pattern: /[1]+[3456789]+\d{9}/, message: '请输入至少一个字符的规则描述！'}]}]" />
+        </a-form-item>
+        <a-form-item label="状态">
+          <a-input v-decorator="['state', {initialValue: 1 , rules: [{required: true, pattern: /[1]+[3456789]+\d{9}/, message: '请输入至少一个字符的规则描述！'}]}]" />
+        </a-form-item>
+        <!-- <a-form-item label="创建时间">
+          <a-input v-decorator="['createDate',  { initialValue: createDate }]" disabled />
+        </a-form-item> -->
       </a-form>
     </a-spin>
   </a-modal>
@@ -25,7 +40,7 @@
 import pick from 'lodash.pick'
 
 // 表单字段
-const fields = ['description', 'id']
+const fields = ['username','email','phone','state']
 
 export default {
   props: {
@@ -54,7 +69,7 @@ export default {
       }
     }
     return {
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
     }
   },
   created () {
