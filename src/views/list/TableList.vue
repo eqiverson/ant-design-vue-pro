@@ -270,7 +270,7 @@ export default {
       form.validateFields((errors, values) => {
         if (!errors) {
           console.log('values', values)
-          if (values.id > 0) {
+          if (values.uid > 0) {
             // 修改 e.g.
             new Promise((resolve, reject) => {
               setTimeout(() => {
