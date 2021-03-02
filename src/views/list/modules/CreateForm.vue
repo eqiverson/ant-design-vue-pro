@@ -9,10 +9,10 @@
   >
     <a-spin :spinning="loading">
       <a-form :form="form" v-bind="formLayout">
-        <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-        <!-- <a-form-item v-show="model && model.id > 0" label="主键ID">
-          <a-input v-decorator="['id', { initialValue: 0 }]" disabled />
-        </a-form-item> -->
+        <!-- 检查是否有 uid 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
+        <a-form-item v-show="model && model.uid > 0" label="主键ID">
+          <a-input v-decorator="['uid', { initialValue: 0 }]" disabled />
+        </a-form-item>
         <!-- <a-form-item  label="uid">
           <a-input v-decorator="['uid', { initialValue: uid }]" disabled />
         </a-form-item> -->
