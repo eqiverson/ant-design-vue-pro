@@ -15,24 +15,22 @@ const serverList = (options) => {
 
   const result = [
     {
-      'key': 4895517823358906,
-      'id': 6642319828249818,
-      'no': 'dolore in',
-      'callNo': '554',
-      'description': 'sed aliquip ad cillum',
-      'updatedAt': '1983-04-20 21:11:05',
-      'status': '2',
-      'editable': false
+      key: 4895517823358906,
+      id: 6642319828249818,
+      username: '老大',
+      department: '无线院',
+      td: '区块链研究院',
+      password: '12345',
+      status: '2',
     },
     {
-      'key': 2859373205519720,
-      'id': 7585533524400600,
-      'no': 'laboris ad do',
-      'callNo': '496',
-      'description': 'amet cupidatat dolor',
-      'updatedAt': '2007-09-28 03:49:21',
-      'status': '3',
-      'editable': false
+      key: 2859373205519720,
+      id: 7585533524400600,
+      username: '张怡',
+      department: '无线院',
+      td: '区块链研究院',
+      password: '12345',
+      status: '3',
     }
   ]
 

@@ -80,7 +80,7 @@
       <s-table
         ref="table"
         size="default"
-        rowKey="uid"
+        rowKey="id"
         :columns="columns"
         :data="loadData"
         :alert="true"
@@ -101,10 +101,10 @@
           <template>
             <a @click="handleEdit(record)">配置</a>
             <a-divider type="vertical" />
-            <a @click="handleSub(record)">订阅报警</a>
-            <!-- <a-popconfirm v-if="dataSource.length" title="确认删除?" @confirm="() => onDelete(record.key)">
+<!--            <a @click="handleSub(record)">订阅报警</a>-->
+            <a-popconfirm v-if="loadData.length" title="确认删除?" @confirm="() => onDelete(record.id)">
               <a href="javascript:;">删除</a>
-            </a-popconfirm> -->
+            </a-popconfirm>
           </template>
         </span>
       </s-table>
@@ -124,9 +124,8 @@
 
 <script>
 import moment from 'moment'
-import { STable, Ellipsis } from '@/components'
+import { STable, Ellipsis  } from '@/components'
 import { getRoleList, getServiceList } from '@/api/manage'
-
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
 
@@ -136,8 +135,8 @@ const columns = [
   //   scopedSlots: { customRender: 'uid' }
   // },
   {
-    title: 'uid',
-    dataIndex: 'uid'
+    title: 'id',
+    dataIndex: 'id'
   },
   {
     title: '用户名',
@@ -145,35 +144,40 @@ const columns = [
     // scopedSlots: { customRender: 'description' }
   },
   {
-    title: '邮箱',
-    dataIndex: 'email'
+    title: '用户密码',
+    dataIndex: 'password',
+    colSpan:0
+  },
+  {
+    title: '部门',
+    dataIndex: 'department'
     // sorter: true,
     // needTotal: true,
     // customRender: (text) => text + ' 次'
   },
   {
-    title: '手机号',
-    dataIndex: 'phone'
+    title: '专业院',
+    dataIndex: 'td',
   },
   {
     title: '状态',
     dataIndex: 'status',
     scopedSlots: { customRender: 'status' }
   },
-  {
-    title: '上次登录时间',
-    dataIndex: 'lastLoginDate',
-    sorter: true
-  },
-  {
-    title: '上次登录IP',
-    dataIndex: 'lastLoginIP'
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createDate',
-    sorter: true
-  },
+  // {
+  //   title: '上次登录时间',
+  //   dataIndex: 'lastLoginDate',
+  //   sorter: true
+  // },
+  // {
+  //   title: '上次登录IP',
+  //   dataIndex: 'lastLoginIP'
+  // },
+  // {
+  //   title: '创建时间',
+  //   dataIndex: 'createDate',
+  //   sorter: true
+  // },
   {
     title: '操作',
     dataIndex: 'action',
@@ -259,10 +263,13 @@ export default {
     handleEdit(record) {
       this.visible = true
       this.mdl = { ...record }
+      console.log(this.mdl)
     },
-    onDelete(key) {
-      const dataSource = [...this.dataSource]
-      this.dataSource = dataSource.filter((item) => item.key !== key)
+    onDelete(id) {
+      const dataSource = [...this.loadData]
+      console.log(dataSource)
+      this.loadData = dataSource.filter((item) => item.id !== id)
+      console.log(this.loadData)
     },
     handleOk() {
       const form = this.$refs.createModal.form
@@ -270,7 +277,7 @@ export default {
       form.validateFields((errors, values) => {
         if (!errors) {
           console.log('values', values)
-          if (values.uid > 0) {
+          if (values.id > 0) {
             // 修改 e.g.
             new Promise((resolve, reject) => {
               setTimeout(() => {
