@@ -101,7 +101,7 @@
           <template>
             <a @click="handleEdit(record)">配置</a>
             <a-divider type="vertical" />
-<!--            <a @click="handleSub(record)">订阅报警</a>-->
+            <a @click="handleSub(record)">订阅报警</a>
             <a-popconfirm v-if="loadData.length" title="确认删除?" @confirm="() => onDelete(record.id)">
               <a href="javascript:;">删除</a>
             </a-popconfirm>
