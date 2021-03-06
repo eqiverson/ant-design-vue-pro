@@ -1,9 +1,10 @@
 <template>
   <a-config-provider :locale="locale">
     <div id="app">
-      <router-view/>
+      <router-view v-if="isReloadAlive"></router-view>
     </div>
   </a-config-provider>
+
 </template>
 
 <script>
@@ -11,8 +12,16 @@ import { domTitle, setDocumentTitle } from '@/utils/domUtil'
 import { i18nRender } from '@/locales'
 
 export default {
+
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
+
   data () {
     return {
+      isReloadAlive : true
     }
   },
   computed: {
@@ -23,6 +32,14 @@ export default {
 
       return this.$i18n.getLocaleMessage(this.$store.getters.lang).antLocale
     }
+  },
+  methods: {
+    reload() {
+      this.isReloadAlive = false;
+      this.$nextTick(function () {
+        this.isReloadAlive = true;
+      })
+    }
   }
-}
+  }
 </script>

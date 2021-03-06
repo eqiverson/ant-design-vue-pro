@@ -19,7 +19,7 @@ export const asyncRouterMap = [
         path: '/role-list/:pageNo([1-9]\\d*)?',
         name: 'roleListWrapper',
         component: () => import('@/views/list/TableList'),
-        meta: { title: 'menu.list.table-list', icon: 'user', keepAlive: true, permission: ['table'] }
+        meta: { title: 'menu.role.list', icon: 'user', keepAlive: true, permission: ['table'] }
       },
       // dashboard
       // {
@@ -214,6 +214,7 @@ export const asyncRouterMap = [
         component: RouteView,
         redirect: '/account/center',
         name: 'account',
+        hidden:true,
         meta: { title: 'menu.account', icon: 'user', keepAlive: true, permission: ['user'] },
         children: [
           {

@@ -96,6 +96,9 @@
         <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
         </span>
+        <span slot="password">
+          *********
+        </span>
 
         <span slot="action" slot-scope="text, record">
           <template>
@@ -146,7 +149,7 @@ const columns = [
   {
     title: '用户密码',
     dataIndex: 'password',
-    colSpan:0
+    scopedSlots: { customRender: 'password' }
   },
   {
     title: '部门',
@@ -266,10 +269,10 @@ export default {
       console.log(this.mdl)
     },
     onDelete(id) {
-      const dataSource = [...this.loadData]
-      console.log(dataSource)
-      this.loadData = dataSource.filter((item) => item.id !== id)
-      console.log(this.loadData)
+      // const dataSource = [...this.loadData]
+      // console.log(dataSource)
+      // this.loadData = dataSource.filter((item) => item.id !== id)
+      console.log(id)
     },
     handleOk() {
       const form = this.$refs.createModal.form
@@ -343,3 +346,9 @@ export default {
   },
 }
 </script>
+
+<style lang="less" scoped>
+.tableHiddle {
+  display: none;
+}
+</style>

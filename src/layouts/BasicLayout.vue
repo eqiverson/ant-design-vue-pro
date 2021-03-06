@@ -13,7 +13,7 @@
       广告代码 真实项目中请移除
       production remove this Ads
     -->
-    <ads v-if="isProPreviewSite && !collapsed"/>
+<!--    <ads v-if="isProPreviewSite && !collapsed"/>-->
     <!-- Ads end -->
 
     <!-- 1.0.0+ 版本 pro-layout 提供 API，
@@ -31,7 +31,7 @@
     <template v-slot:headerContentRender>
       <div>
         <a-tooltip title="刷新页面">
-          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="() => { $message.info('只是一个DEMO') }" />
+          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="reload" />
         </a-tooltip>
       </div>
     </template>
@@ -53,7 +53,8 @@
 </template>
 
 <script>
-import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
+import { updateTheme} from '@/components/SettingDrawer/settingConfig'
+import { SettingDrawer } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
 import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE } from '@/store/mutation-types'
@@ -65,6 +66,7 @@ import Ads from '@/components/Other/CarbonAds'
 import LogoSvg from '../assets/logo.svg?inline'
 
 export default {
+  inject: ['reload'],
   name: 'BasicLayout',
   components: {
     SettingDrawer,
