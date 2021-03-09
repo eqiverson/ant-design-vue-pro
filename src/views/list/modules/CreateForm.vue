@@ -28,6 +28,9 @@
 <!--        <a-form-item label="手机号">-->
 <!--          <a-input v-decorator="['phone', {rules: [{required: true, pattern: /[1]+[3456789]+\d{9}/, message: '请输入至少一个字符的规则描述！'}]}]" />-->
 <!--        </a-form-item>-->
+        <a-form-item label="地市">
+          <a-input v-decorator="['city', {rules: [{required: true, message: '请输入所属地市'}]}]" />
+        </a-form-item>
         <a-form-item label="部门">
           <a-input v-decorator="['department', {rules: [{required: true, message: '请输入所属部门'}]}]" />
         </a-form-item>
@@ -49,7 +52,7 @@
 import pick from 'lodash.pick'
 
 // 表单字段
-const fields = ['id', 'username', 'password', 'department', 'td']
+const fields = ['id', 'username', 'password', 'city', 'department', 'td']
 
 export default {
   props: {

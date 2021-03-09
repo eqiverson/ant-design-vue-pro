@@ -11,6 +11,8 @@
 import { domTitle, setDocumentTitle } from '@/utils/domUtil'
 import { i18nRender } from '@/locales'
 
+
+
 export default {
 
   provide() {
@@ -39,7 +41,10 @@ export default {
       this.$nextTick(function () {
         this.isReloadAlive = true;
       })
-    }
-  }
+    },
+
+
+  },
+
   }
 </script>

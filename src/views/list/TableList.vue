@@ -102,9 +102,9 @@
 
         <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="handleEdit(record)">配置</a>
+            <a @click="handleEdit(record)">修改</a>
             <a-divider type="vertical" />
-            <a @click="handleSub(record)">订阅报警</a>
+            <!-- <a @click="handleSub(record)">订阅报警</a> -->
             <a-popconfirm v-if="loadData.length" title="确认删除?" @confirm="() => onDelete(record.id)">
               <a href="javascript:;">删除</a>
             </a-popconfirm>
@@ -150,6 +150,10 @@ const columns = [
     title: '用户密码',
     dataIndex: 'password',
     scopedSlots: { customRender: 'password' }
+  },
+  {
+    title: '地市',
+    dataIndex: 'city'
   },
   {
     title: '部门',

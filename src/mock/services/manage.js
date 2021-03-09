@@ -18,6 +18,7 @@ const serverList = (options) => {
       key: 4895517823358906,
       id: 6642319828249818,
       username: '老大',
+      city: '广州',
       department: '无线院',
       td: '区块链研究院',
       password: '12345',

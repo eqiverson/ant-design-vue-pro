@@ -1,16 +1,33 @@
 import request from '@/utils/request'
 
+// const userApi = {
+//   Login: '/auth/login',
+//   Logout: '/auth/logout',
+//   ForgePassword: '/auth/forge-password',
+//   Register: '/auth/register',
+//   twoStepCode: '/auth/2step-code',
+//   SendSms: '/account/sms',
+//   SendSmsErr: '/account/sms_err',
+//   // get my info
+//   UserInfo: '/user/info',
+//   UserMenu: '/user/nav'
+// }
+
 const userApi = {
-  Login: '/auth/login',
-  Logout: '/auth/logout',
-  ForgePassword: '/auth/forge-password',
-  Register: '/auth/register',
-  twoStepCode: '/auth/2step-code',
-  SendSms: '/account/sms',
-  SendSmsErr: '/account/sms_err',
+  Login: '/v1/login',
+  // Logout: '/auth/logout',
+  // ForgePassword: '/auth/forge-password',
+  UpdatePassword: '/v1/updatePassword',
+  Register: '/v1/register',
+  // twoStepCode: '/auth/2step-code',
+  // SendSms: '/account/sms',
+  // SendSmsErr: '/account/sms_err',
   // get my info
-  UserInfo: '/user/info',
-  UserMenu: '/user/nav'
+  // UserInfo: '/user/info',
+  UpdateUserInfo: '/v1/updateUserInfo',
+  UpdateStatus: '/v1/updateStatus',
+  // UserMenu: '/user/nav'
+  GetUserList: '/v1/getUserList'
 }
 
 /**
@@ -31,6 +48,47 @@ export function login (parameter) {
     data: parameter
   })
 }
+
+export function UpdatePassword (parameter) {
+  return request({
+    url: userApi.UpdatePassword,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function Register (parameter) {
+  return request({
+    url: userApi.Register,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function UpdateUserInfo (parameter) {
+  return request({
+    url: userApi.UpdateUserInfo,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function UpdateStatus (parameter) {
+  return request({
+    url: userApi.UpdateStatus,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function GetUserList (parameter) {
+  return request({
+    url: userApi.GetUserList,
+    method: 'post',
+    data: parameter
+  })
+}
+
 
 export function getSmsCaptcha (parameter) {
   return request({
