@@ -23,7 +23,7 @@ export default {
       type: Function,
       required: true
     },
-    pageNum: {
+    page: {
       type: Number,
       default: 1
     },
@@ -60,7 +60,7 @@ export default {
     },
     showPagination: {
       type: String | Boolean,
-      default: 'auto'
+      default: 'true'
     },
     /**
      * enable page URI mode
@@ -82,7 +82,7 @@ export default {
         ...this.$route,
         name: this.$route.name,
         params: Object.assign({}, this.$route.params, {
-          pageNo: val
+          page: val
         })
       })
       // change pagination, reset total data
@@ -90,7 +90,7 @@ export default {
       this.selectedRowKeys = []
       this.selectedRows = []
     },
-    pageNum (val) {
+    page (val) {
       Object.assign(this.localPagination, {
         current: val
       })
@@ -107,9 +107,9 @@ export default {
     }
   },
   created () {
-    const { pageNo } = this.$route.params
-    const localPageNum = this.pageURI && (pageNo && parseInt(pageNo)) || this.pageNum
-    this.localPagination = ['auto', true].includes(this.showPagination) && Object.assign({}, this.localPagination, {
+    const { page } = this.$route.params
+    const localPageNum = this.pageURI && (page && parseInt(page)) || this.page
+    this.localPagination =  Object.assign({}, this.localPagination, {
       current: localPageNum,
       pageSize: this.pageSize,
       showSizeChanger: this.showSizeChanger
@@ -138,8 +138,8 @@ export default {
     loadData (pagination, filters, sorter) {
       this.localLoading = true
       const parameter = Object.assign({
-        pageNo: (pagination && pagination.current) ||
-          this.showPagination && this.localPagination.current || this.pageNum,
+        page: (pagination && pagination.current) ||
+          this.showPagination && this.localPagination.current || this.page,
         pageSize: (pagination && pagination.pageSize) ||
           this.showPagination && this.localPagination.pageSize || this.pageSize
       },
@@ -152,35 +152,37 @@ export default {
         ...filters
       }
       )
+
       const result = this.data(parameter)
-      // 对接自己的通用数据接口需要修改下方代码中的 r.pageNo, r.totalCount, r.data
+      // 对接自己的通用数据接口需要修改下方代码中的 r.page, r.pageCount, r.data
       // eslint-disable-next-line
       if ((typeof result === 'object' || typeof result === 'function') && typeof result.then === 'function') {
         result.then(r => {
+          console.log(r)
           this.localPagination = this.showPagination && Object.assign({}, this.localPagination, {
-            current: r.pageNo, // 返回结果中的当前分页数
-            total: r.totalCount, // 返回结果中的总记录数
+            current: r.page, // 返回结果中的当前分页数
+            total: r.count, // 返回结果中的总记录数
             showSizeChanger: this.showSizeChanger,
             pageSize: (pagination && pagination.pageSize) ||
               this.localPagination.pageSize
           }) || false
           // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
-          if (r.data.length === 0 && this.showPagination && this.localPagination.current > 1) {
+          if (r.result.length === 0 && this.showPagination && this.localPagination.current > 1) {
             this.localPagination.current--
             this.loadData()
             return
           }
 
-          // 这里用于判断接口是否有返回 r.totalCount 且 this.showPagination = true 且 pageNo 和 pageSize 存在 且 totalCount 小于等于 pageNo * pageSize 的大小
+          // 这里用于判断接口是否有返回 r.pageCount 且 this.showPagination = true 且 page 和 pageSize 存在 且 pageCount 小于等于 page * pageSize 的大小
           // 当情况满足时，表示数据不满足分页大小，关闭 table 分页功能
           try {
-            if ((['auto', true].includes(this.showPagination) && r.totalCount <= (r.pageNo * this.localPagination.pageSize))) {
+            if ((['auto', true].includes(this.showPagination) && r.pageCount <= (r.page * this.localPagination.pageSize))) {
               this.localPagination.hideOnSinglePage = true
             }
           } catch (e) {
             this.localPagination = false
           }
-          this.localDataSource = r.data // 返回结果中的数组数据
+          this.localDataSource = r.result // 返回结果中的数组数据
           this.localLoading = false
         })
       }

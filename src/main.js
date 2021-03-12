@@ -11,13 +11,14 @@ import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
 import axios from 'axios';
+
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 // import './mock'
 
 import bootstrap from './core/bootstrap'
 import './core/lazy_use' // use lazy load components
-// import './permission' // permission control
+import './permission' // permission control
 import './utils/filter' // global filter
 import './global.less' // global style
 
@@ -43,10 +44,22 @@ new Vue({
 
 
 axios({
+  // url:'http://172.16.35.165:8022/v1/login',
   url:'http://192.168.13.120:8022/v1/login',
   contentType:'application/json',
   method:'post',
   data:{ username: 'root', password: '123'},
+}).then(res => {
+  console.log(res);
+})
+
+axios({
+  // url:'http://172.16.35.165:8022/v1/login',
+  url:'http://192.168.13.120:8022/v1/getUserList',
+
+    Authorization: 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjhmNmU1YTVkLWZlZDUtNDdlMi04OGIxLTk5M2ZlMmZiZTFjNCJ9.G_ceVsDiSd22E5jwMTKD5-ctHdd8Zp58ocwFXzoeg_0-q_CR1OWaMhpdYZ4CnOauqiz7bAtQMollK9uGv0njhQ',
+  method:'post',
+  data:{ },
 }).then(res => {
   console.log(res);
 })

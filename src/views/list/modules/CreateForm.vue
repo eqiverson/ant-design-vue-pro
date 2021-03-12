@@ -9,13 +9,12 @@
   >
     <a-spin :spinning="loading">
       <a-form :form="form" v-bind="formLayout">
+        <template  v-if="model && model.userId > 0">
         <!-- 检查是否有 uid 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-        <a-form-item v-show="model && model.id > 0" label="ID">
-          <a-input v-decorator="['id']" disabled />
+        <a-form-item  label="userId">
+          <a-input v-decorator="['userId']" disabled />
         </a-form-item>
-        <!-- <a-form-item  label="uid">
-          <a-input v-decorator="['uid', { initialValue: uid }]" disabled />
-        </a-form-item> -->
+
         <a-form-item label="用户名">
           <a-input v-decorator="['username', {rules: [{required: true, min: 1, message: '请输入至少一个字符的规则描述！'}]}]" />
         </a-form-item>
@@ -28,15 +27,38 @@
 <!--        <a-form-item label="手机号">-->
 <!--          <a-input v-decorator="['phone', {rules: [{required: true, pattern: /[1]+[3456789]+\d{9}/, message: '请输入至少一个字符的规则描述！'}]}]" />-->
 <!--        </a-form-item>-->
-        <a-form-item label="地市">
+
+        <!-- <a-form-item label="地市">
           <a-input v-decorator="['city', {rules: [{required: true, message: '请输入所属地市'}]}]" />
+        </a-form-item> -->
+        <a-form-item label="员工名字">
+          <a-input v-decorator="['employeeName', {rules: [{required: true, message: '请输入所属部门'}]}]" />
         </a-form-item>
-        <a-form-item label="部门">
+        </template>
+
+        <template  v-else>
+        <a-form-item   label="userId">
+          <a-input v-decorator="['userId', { initialValue: 0 }]" disabled />
+        </a-form-item>
+                <a-form-item label="用户名">
+          <a-input v-decorator="['username', {rules: [{required: true, min: 1, message: '请输入至少一个字符的规则描述！'}]}]" />
+        </a-form-item>
+        <a-form-item label="用户密码">
+          <a-input v-decorator="['password', {rules: [{required: true, message: '请输入密码'}]}]" />
+        </a-form-item>
+                <a-form-item label="员工名字">
+          <a-input v-decorator="['employeeName', {rules: [{required: true, message: '请输入所属部门'}]}]" />
+        </a-form-item>
+                <a-form-item   label="手机">
+          <a-input v-decorator="['mobile', {rules: [{required: true, message: '请输入所属地市'}]}]" />
+        </a-form-item>
+               </template>   
+        <!-- <a-form-item label="部门">
           <a-input v-decorator="['department', {rules: [{required: true, message: '请输入所属部门'}]}]" />
         </a-form-item>
         <a-form-item label="专业院">
           <a-input v-decorator="['td', {rules: [{required: true, message: '请输入所属专业院'}]}]" />
-        </a-form-item>
+        </a-form-item> -->
 <!--        <a-form-item label="状态">-->
 <!--          <a-input v-decorator="['state', {initialValue: 1 , rules: [{required: true, pattern: /[1]+[3456789]+\d{9}/, message: '请输入至少一个字符的规则描述！'}]}]" />-->
 <!--        </a-form-item>-->
@@ -52,7 +74,7 @@
 import pick from 'lodash.pick'
 
 // 表单字段
-const fields = ['id', 'username', 'password', 'city', 'department', 'td']
+const fields = [ 'userId', 'username', 'password', 'mobile', 'employeeName' ]
 
 export default {
   props: {

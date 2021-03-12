@@ -18,14 +18,14 @@ const userApi = {
   // Logout: '/auth/logout',
   // ForgePassword: '/auth/forge-password',
   UpdatePassword: '/v1/updatePassword',
-  Register: '/v1/register',
+  Register: '/v1/registerUser',
   // twoStepCode: '/auth/2step-code',
   // SendSms: '/account/sms',
   // SendSmsErr: '/account/sms_err',
   // get my info
   // UserInfo: '/user/info',
   UpdateUserInfo: '/v1/updateUserInfo',
-  UpdateStatus: '/v1/updateStatus',
+  UpdateStatus: '/v1/updateUserStatus',
   // UserMenu: '/user/nav'
   GetUserList: '/v1/getUserList'
 }
@@ -61,7 +61,10 @@ export function Register (parameter) {
   return request({
     url: userApi.Register,
     method: 'post',
-    data: parameter
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 
@@ -69,7 +72,10 @@ export function UpdateUserInfo (parameter) {
   return request({
     url: userApi.UpdateUserInfo,
     method: 'post',
-    data: parameter
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 
@@ -77,7 +83,10 @@ export function UpdateStatus (parameter) {
   return request({
     url: userApi.UpdateStatus,
     method: 'post',
-    data: parameter
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 

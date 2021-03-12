@@ -32,9 +32,9 @@
               <a-col :md="8" :sm="24">
                 <a-form-item label="使用状态">
                   <a-select v-model="queryParam.useStatus" placeholder="请选择" default-value="0">
-                    <a-select-option value="0">全部</a-select-option>
-                    <a-select-option value="1">关闭</a-select-option>
-                    <a-select-option value="2">运行中</a-select-option>
+                    <a-select-option value=0>全部</a-select-option>
+                    <a-select-option value=1>关闭</a-select-option>
+                    <a-select-option value=2>运行中</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -80,18 +80,20 @@
       <s-table
         ref="table"
         size="default"
-        rowKey="id"
+        rowKey="userId"
         :columns="columns"
         :data="loadData"
         :alert="true"
         :rowSelection="rowSelection"
-        showPagination="auto"
       >
         <!-- <span slot="uid" slot-scope="text, record, index">
           {{ index + 1 }}
         </span> -->
-        <span slot="status" slot-scope="text">
+        <!-- <span slot="status" slot-scope="text">
           <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
+        </span> -->
+        <span slot="status" slot-scope="text">
+         {{text | statusFilter}}
         </span>
         <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
@@ -105,7 +107,7 @@
             <a @click="handleEdit(record)">修改</a>
             <a-divider type="vertical" />
             <!-- <a @click="handleSub(record)">订阅报警</a> -->
-            <a-popconfirm v-if="loadData.length" title="确认删除?" @confirm="() => onDelete(record.id)">
+            <a-popconfirm v-if="loadData.length" title="确认删除?" @confirm="() => onDelete(record.userId)">
               <a href="javascript:;">删除</a>
             </a-popconfirm>
           </template>
@@ -129,8 +131,14 @@
 import moment from 'moment'
 import { STable, Ellipsis  } from '@/components'
 import { getRoleList, getServiceList } from '@/api/manage'
+import { Register , UpdateUserInfo ,UpdateStatus } from '@/api/login'
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
+
+
+
+
+
 
 const columns = [
   // {
@@ -138,8 +146,8 @@ const columns = [
   //   scopedSlots: { customRender: 'uid' }
   // },
   {
-    title: 'id',
-    dataIndex: 'id'
+    title: 'userId',
+    dataIndex: 'userId'
   },
   {
     title: '用户名',
@@ -147,29 +155,46 @@ const columns = [
     // scopedSlots: { customRender: 'description' }
   },
   {
+    title: '姓名',
+    dataIndex: 'employeeName'
+    // scopedSlots: { customRender: 'description' }
+  },
+   {
+    title: '性别',
+    dataIndex: 'gender'
+   },
+  {
     title: '用户密码',
     dataIndex: 'password',
     scopedSlots: { customRender: 'password' }
   },
   {
-    title: '地市',
-    dataIndex: 'city'
+    title: '手机号',
+    dataIndex: 'mobile'
   },
+  // {
+  //   title: '地市',
+  //   dataIndex: 'city'
+  // },
   {
     title: '部门',
-    dataIndex: 'department'
-    // sorter: true,
+    dataIndex: 'deptName'
     // needTotal: true,
     // customRender: (text) => text + ' 次'
   },
-  {
-    title: '专业院',
-    dataIndex: 'td',
-  },
+  // {
+  //   title: '专业院',
+  //   dataIndex: 'td',
+  // },
   {
     title: '状态',
     dataIndex: 'status',
     scopedSlots: { customRender: 'status' }
+    // filters: [
+    //   { text: '正常', value: 0 },
+    //   { text: '停用', value: 1 },
+    //   { text: '已删除', value: 2 },
+    // ]
   },
   // {
   //   title: '上次登录时间',
@@ -195,21 +220,17 @@ const columns = [
 
 const statusMap = {
   0: {
-    status: 'default',
-    text: '关闭'
+    status: '0',
+    text: '正常'
   },
   1: {
-    status: 'processing',
-    text: '运行中'
+    status: '1',
+    text: '停用'
   },
   2: {
-    status: 'success',
-    text: '已上线'
+    status: '2',
+    text: '已删除'
   },
-  3: {
-    status: 'error',
-    text: '异常'
-  }
 }
 
 export default {
@@ -235,8 +256,9 @@ export default {
       loadData: (parameter) => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters).then((res) => {
-          return res.result
+        return getRoleList(requestParameters).then((res) => {
+          console.log(res)
+          return res.data
         })
       },
       selectedRowKeys: [],
@@ -252,7 +274,7 @@ export default {
     },
   },
   created() {
-    getRoleList({ t: new Date() })
+    getRoleList({})
   },
   computed: {
     rowSelection() {
@@ -273,9 +295,12 @@ export default {
       console.log(this.mdl)
     },
     onDelete(id) {
-      // const dataSource = [...this.loadData]
-      // console.log(dataSource)
-      // this.loadData = dataSource.filter((item) => item.id !== id)
+      UpdateStatus({userId:id,status:2}).then((res) => {
+        this.$message.info(res.message)
+
+      }
+
+      )
       console.log(id)
     },
     handleOk() {
@@ -284,13 +309,9 @@ export default {
       form.validateFields((errors, values) => {
         if (!errors) {
           console.log('values', values)
-          if (values.id > 0) {
+          if (values.userId > 0) {
             // 修改 e.g.
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                resolve()
-              }, 1000)
-            }).then((res) => {
+            UpdateUserInfo(values).then((res) => {
               this.visible = false
               this.confirmLoading = false
               // 重置表单数据
@@ -298,15 +319,12 @@ export default {
               // 刷新表格
               this.$refs.table.refresh()
 
-              this.$message.info('修改成功')
+              this.$message.info(res.message)
             })
           } else {
             // 新增
             new Promise((resolve, reject) => {
-              setTimeout(() => {
-                resolve()
-              }, 1000)
-            }).then((res) => {
+              Register(values).then((res) => {
               this.visible = false
               this.confirmLoading = false
               // 重置表单数据
@@ -314,10 +332,11 @@ export default {
               // 刷新表格
               this.$refs.table.refresh()
 
-              this.$message.info('新增成功')
+              this.$message.info(res.message)
             })
-          }
-        } else {
+          })
+        } 
+        }else {
           this.confirmLoading = false
         }
       })

@@ -84,6 +84,7 @@ export default {
   created () {
     getRoleList().then((res) => {
       this.roles = res.result.data
+      console.log(res.result)
       this.roles.push({
         id: '-1',
         name: '新增角色',
@@ -91,7 +92,7 @@ export default {
       })
       console.log('this.roles', this.roles)
     })
-    this.loadPermissions()
+    // this.loadPermissions()
   },
   methods: {
     callback (val) {

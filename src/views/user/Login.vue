@@ -31,7 +31,7 @@
           <a-form-item>
             <a-input-password
               size="large"
-              :placeholder="$t('user.login.password.placeholder')"
+
               v-decorator="[
                 'password',
                 {rules: [{ required: true, message: $t('user.password.required') }], validateTrigger: 'blur'}
@@ -119,6 +119,7 @@ import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
 import { getSmsCaptcha, get2step } from '@/api/login'
+
 
 export default {
   components: {
@@ -210,7 +211,6 @@ export default {
       validateFields(['mobile'], { force: true }, (err, values) => {
         if (!err) {
           state.smsSendBtn = true
-
           const interval = window.setInterval(() => {
             if (state.time-- <= 0) {
               state.time = 60
@@ -237,6 +237,7 @@ export default {
         }
       })
     },
+
     stepCaptchaSuccess () {
       this.loginSuccess()
     },
@@ -259,7 +260,7 @@ export default {
         })
       })
       */
-      this.$router.push({ path: '/' })
+      this.$router.push({ path: '/role-list' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
