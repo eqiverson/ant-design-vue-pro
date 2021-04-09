@@ -43,26 +43,26 @@ new Vue({
 }).$mount('#app')
 
 
-axios({
-  // url:'http://172.16.35.165:8022/v1/login',
-  url:'http://192.168.13.120:8022/v1/login',
-  contentType:'application/json',
-  method:'post',
-  data:{ username: 'root', password: '123'},
-}).then(res => {
-  console.log(res);
-})
+// axios({
+//   // url:'http://172.16.35.165:8022/v1/login',
+//   url:'http://192.168.13.120:8022/v1/login',
+//   contentType:'application/json',
+//   method:'post',
+//   data:{ username: 'root', password: '123'},
+// }).then(res => {
+//   console.log(res);
+// })
 
-axios({
-  // url:'http://172.16.35.165:8022/v1/login',
-  url:'http://192.168.13.120:8022/v1/getUserList',
+// axios({
+//   // url:'http://172.16.35.165:8022/v1/login',
+//   url:'http://192.168.13.120:8022/v1/getUserList',
 
-    Authorization: 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjhmNmU1YTVkLWZlZDUtNDdlMi04OGIxLTk5M2ZlMmZiZTFjNCJ9.G_ceVsDiSd22E5jwMTKD5-ctHdd8Zp58ocwFXzoeg_0-q_CR1OWaMhpdYZ4CnOauqiz7bAtQMollK9uGv0njhQ',
-  method:'post',
-  data:{ },
-}).then(res => {
-  console.log(res);
-})
+//     Authorization: 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjhmNmU1YTVkLWZlZDUtNDdlMi04OGIxLTk5M2ZlMmZiZTFjNCJ9.G_ceVsDiSd22E5jwMTKD5-ctHdd8Zp58ocwFXzoeg_0-q_CR1OWaMhpdYZ4CnOauqiz7bAtQMollK9uGv0njhQ',
+//   method:'post',
+//   data:{ },
+// }).then(res => {
+//   console.log(res);
+// })
 
 // axios({
 //   url:'http://192.168.13.120:8022/getAccount',

@@ -5,11 +5,11 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="用户">
-                <a-input v-model="queryParam.description" placeholder="" />
+              <a-form-item label="用户名">
+                <a-input v-model="queryParam.key" placeholder="" />
               </a-form-item>
             </a-col>
-            <a-col :md="8" :sm="24">
+            <!-- <a-col :md="8" :sm="24">
               <a-form-item label="使用状态">
                 <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
                   <a-select-option value="0">全部</a-select-option>
@@ -17,8 +17,8 @@
                   <a-select-option value="2">运行中</a-select-option>
                 </a-select>
               </a-form-item>
-            </a-col>
-            <template v-if="advanced">
+            </a-col> -->
+            <!-- <template v-if="advanced">
               <a-col :md="8" :sm="24">
                 <a-form-item label="调用次数">
                   <a-input-number v-model="queryParam.callNo" style="width: 100%" />
@@ -47,7 +47,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-            </template>
+            </template> -->
             <a-col :md="(!advanced && 8) || 24" :sm="24">
               <span
                 class="table-page-search-submitButtons"
@@ -55,9 +55,9 @@
               >
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => (this.queryParam = {})">重置</a-button>
-                <a @click="toggleAdvanced" style="margin-left: 8px">
+                <!-- <a @click="toggleAdvanced" style="margin-left: 8px">
                   {{ advanced ? '收起' : '展开' }}
-                  <a-icon :type="advanced ? 'up' : 'down'" />
+                  <a-icon :type="advanced ? 'up' : 'down'" /> -->
                 </a>
               </span>
             </a-col>
@@ -67,14 +67,14 @@
 
       <div class="table-operator">
         <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
-        <a-dropdown  v-if="selectedRowKeys.length > 0">
+        <!-- <a-dropdown  v-if="selectedRowKeys.length > 0">
           <a-menu slot="overlay">
-            <a-menu-item key="1"><a-icon type="delete" @click="onDelete(record.key)"/>删除</a-menu-item>
+            <a-menu-item key="1"><a-icon type="delete" @click="onDelete(record.key)"/>删除</a-menu-item> -->
             <!-- lock | unlock -->
-            <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+            <!-- <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /> </a-button>
-        </a-dropdown>
+        </a-dropdown> -->
       </div>
 
       <s-table
@@ -159,10 +159,10 @@ const columns = [
     dataIndex: 'employeeName'
     // scopedSlots: { customRender: 'description' }
   },
-   {
-    title: '性别',
-    dataIndex: 'gender'
-   },
+  //  {
+  //   title: '性别',
+  //   dataIndex: 'gender'
+  //  },
   {
     title: '用户密码',
     dataIndex: 'password',
@@ -189,12 +189,13 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    scopedSlots: { customRender: 'status' }
-    // filters: [
-    //   { text: '正常', value: 0 },
-    //   { text: '停用', value: 1 },
-    //   { text: '已删除', value: 2 },
-    // ]
+    scopedSlots: { customRender: 'status' },
+    filterMultiple: false,
+    filters: [
+      { text: '正常', value: 0 },
+      { text: '停用', value: 1 },
+      { text: '已删除', value: 2 },
+    ]
   },
   // {
   //   title: '上次登录时间',
@@ -256,6 +257,8 @@ export default {
       loadData: (parameter) => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
+        if(requestParameters.status)
+        requestParameters.status=requestParameters.status[0]
         return getRoleList(requestParameters).then((res) => {
           console.log(res)
           return res.data

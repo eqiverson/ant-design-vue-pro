@@ -137,6 +137,9 @@ export default {
      */
     loadData (pagination, filters, sorter) {
       this.localLoading = true
+      console.log(filters)
+      const f = {...filters}
+      console.log(f)
       const parameter = Object.assign({
         page: (pagination && pagination.current) ||
           this.showPagination && this.localPagination.current || this.page,

@@ -4,14 +4,17 @@ import storage from 'store'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
-
+import { login, getInfo, logout } from '@/api/login'
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
   // baseURL: process.env.VUE_APP_API_BASE_URL,
   // baseURL: 'http://192.168.13.120:8022',
-  baseURL: 'http://192.168.13.120:8078',
-  // baseURL: 'http://172.16.35.165:8022',
+  // baseURL: 'http://192.168.13.120:8078',
+  // baseURL: 'http://172.16.35.165:8078',
+  // baseURL: 'http://172.16.35.167:8078',
+  // baseURL: '14.18.91.8:8022',
+  baseURL: '//panel.gzidwx.top:8022',
   timeout: 6000 // 请求超时时间
 })
 
@@ -60,6 +63,18 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
+  console.log(response.data.code)
+  let that = this
+  if(response.data.code === "1200")
+  {
+    store.dispatch('Logout').then(() => {
+      setTimeout(() => {
+        window.location.reload()
+      }, 1500)
+    })
+
+}
+  else
   return response.data
 }, errorHandler)
 
